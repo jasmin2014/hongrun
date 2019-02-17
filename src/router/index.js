@@ -1,292 +1,255 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/pages/Home'
+import FinanceList from '@/pages/finance/List';
+import FinanceDetail from '@/pages/finance/Detail';
+import RichesList from '@/pages/riches/list';
 import Login from '@/pages/Login';
-import findPass from '@/pages/findPass';
+import Register from '@/pages/Reg';
+import IborrowList from '@/pages/iborrow/list';
+import IborrowApply from '@/pages/iborrow/apply';
+import PersonalHome from '@/pages/personal/Home';
 
-import Register from '@/pages/Register'
-import Download from '@/pages/Download';
+//基本设置
+import baseSet from '@/pages/personal/BaseSet';
+import baseInfo from '@/pages/personal/baseSetComps/BaseInfo';
+import HeadAndPassword from '@/pages/personal/baseSetComps/HeadAndPass';
+import Authority from '@/pages/personal/baseSetComps/Authority';
 
-import Personal from '@/pages/Personal'
-import MessPerson from '@/components/personalCompents/MessPerson'
-import HeadAndPass from '@/components/personalCompents/HeadAndPass';
-import Varification from '@/components/personalCompents/Varification'
-import Account from '@/components/personalCompents/Account';
-import Recharge from '@/components/personalCompents/Recharge';
-import withDraw from '@/components/personalCompents/WithDraw';
-import Pandect from '@/components/personalCompents/Pandect';
-import SpreadInvest from '@/components/personalCompents/SpreadInvest';
-import Borrowin from '@/components/personalCompents/Borrowin';
-import Quota from '@/components/personalCompents/Quota';
-import RedPackage from '@/components/personalCompents/RedPackage';
+//资金管理
+import FundsManage from '@/pages/personal/FundsManage';
+import Recharge from '@/pages/personal/fundsManageComps/Recharge';
+import Withdraw from '@/pages/personal/fundsManageComps/Withdraw';
+import BankAccount from '@/pages/personal/fundsManageComps/BankAccount';
+import Redpackage from '@/pages/personal/fundsManageComps/RedPackage';
 
-import InvestRecords from '@/pages/InvestRecords';
-import InvestDetail from '@/pages/InvestDetail';
-import Agreement from '@/pages/Agreement';
+//投资管理
+import InvestMent from '@/pages/personal/Investment';
+import Sanbiao from '@/pages/personal/investmentComps/Sanbiao';
 
-import Calculator from '@/pages/Calculator';
-import Investment from '@/components/calcutorComponents/Investment';
-import Borrow from '@/components/calcutorComponents/Borrow';
-import BorrowApply from '@/components/borrowCompents/Apply';
+//借款管理
+import Borrow from '@/pages/personal/Borrow';
+import BorrowTable from '@/pages/personal/borrowComps/borrowTable';
+import QuatoApplication from '@/pages/personal/borrowComps/quotaApplication';
+import Upload from '@/pages/personal/borrowComps/upload'
 
-import Guide from '@/pages/Guide';
-import iBorrow from '@/pages/Borrow';
+import Service from '@/pages/more/Service';
+import Guide from '@/pages/more/Guide';
+import Aboutus from '@/pages/more/Aboutus';
 
-import About from '@/pages/About'
-import AboutPlatform from '@/components/aboutCompents/Platform'
-import AboutRecruit from '@/components/aboutCompents/Recruit'
-import AboutNotice from '@/components/aboutCompents/Notice'
-import AboutNews from '@/components/aboutCompents/News'
-import AboutQuestion from '@/components/aboutCompents/Question'
-import AboutLaw from '@/components/aboutCompents/Law'
-import AboutContact from '@/components/aboutCompents/Contact'
-import AboutSecurity from '@/components/aboutCompents/Security'
-import AboutDetail from '@/components/aboutCompents/Detail'
+//交易金额
+import Records from '@/pages/personal/Records';
 
-Vue.use(Router);
-import { MessageBox } from 'element-ui'
+//忘记密码
+import SetPassword from '@/pages/setPassword';
+
+import Ips from '@/components/Ips';
+import IpsLogin from '@/components/IpsLogin';
+
+Vue.use(Router)
+import { MessageBox } from 'mint-ui';
 
 export default new Router({
-    mode: 'history',
-    routes: [
-        {
-            path: '/',
-            name: 'Home',
-            component: Home
-        },
-        {
-            path: '/login',
-            name: 'Login',
-            component: Login
-        },
-        {
-            path: '/findpass',
-            name: 'findPass',
-            component: findPass
-        },
-        {
-            path: '/reg',
-            name: 'Register',
-            component: Register
-        },
-        {
-            path: '/download',
-            name: 'Download',
-            component: Download
-        },
-        {
-            path: '/personal',
-            name: 'Personal',
-            component: Personal,
-            beforeEnter: requireAuth,
-            children: [
-                {
-                    path: '/',
-                    redirect: 'person'
-                },
-                {
-                    path: 'person',
-                    name: 'person',
-                    component: MessPerson,
-                    beforeEnter: requireCheck
-                },
-                {
-                    path: 'setpass',
-                    name: 'HeadAndPass',
-                    component: HeadAndPass
-                },
-                {
-                    path: 'varification',
-                    name: 'Varification',
-                    component: Varification
-                },
-                {  //银行账户
-                    path: 'account',
-                    name: 'Account',
-                    component: Account
-                },
-                {  // 我要充值
-                    path: 'recharge',
-                    name: 'Recharge',
-                    component: Recharge,
-                    beforeEnter: requireCheck
-                },
-                {  //我要提现
-                    path: 'withdraw',
-                    name: 'withDraw',
-                    component: withDraw,
-                    beforeEnter: requireCheck
-                },
-                {  //我要提现
-                    path: 'redpackage',
-                    name: 'RedPackage',
-                    component: RedPackage
-                },
-                {
-                    path: 'pandect',
-                    name: 'Pandect',
-                    component: Pandect
-                },
-                {
-                    path: 'spread',
-                    name: 'SpreadInvest',
-                    component: SpreadInvest
-                },
-                {
-                    path: 'borrowin',
-                    name: 'Borrowin',
-                    component: Borrowin
-                },
-                {
-                    path: 'quota',
-                    name: 'Quota',
-                    component: Quota
-                }
-            ]
-        },
-        {
-            path: '/calculator',
-            name: 'Calculator',
-            component: Calculator,
-            children: [
-                {
-                    path: '/',
-                    redirect: 'investment'
-                },
-                {
-                    path: 'investment',
-                    name: 'Investment',
-                    component: Investment
-                },
-                {
-                    path: 'borrow',
-                    name: 'Borrow',
-                    component: Borrow
-                }
-            ]
-        },
-        {
-            path: '/invest',
-            name: 'InvestRecords',
-            component: InvestRecords
-        },
-        {
-            path: '/invest/detail',
-            name: 'InvestDetail',
-            component: InvestDetail,
-            beforeEnter: requireCheck
-        },
-        {
-            path: '/invest/agreement',
-            name: 'Agreement',
-            component: Agreement
-        },
-        {
-            path: '/iborrow',
-            name: 'iBorrow',
-            component: iBorrow,
-        },
-        {
-            path: '/iborrow/apply',
-            name: 'BorrowApply',
-            component: BorrowApply
-        },
-        {
-            path: '/guide',
-            name: 'Guide',
-            component: Guide
-        },
-        {
-            path: '/about',
-            name: 'About',
-            component: About,
-            children: [
-                {
-                    path: '/',
-                    redirect: 'platform'
-                },
-                {
-                    path: 'platform',
-                    name: 'Platform',
-                    component: AboutPlatform
-                },
-                {
-                    path: 'recruit',
-                    name: 'Recruit',
-                    component: AboutRecruit
-                },
-                {
-                    path: 'notice',
-                    name: 'Notice',
-                    component: AboutNotice
-                },
-                {
-                    path: 'news',
-                    name: 'News',
-                    component: AboutNews
-                },
-                {
-                    path: 'question',
-                    name: 'Question',
-                    component: AboutQuestion
-                },
-                {
-                    path: 'law',
-                    name: 'Law',
-                    component: AboutLaw
-                },
-                {
-                    path: 'contact',
-                    name: 'Contact',
-                    component: AboutContact
-                },
-                {
-                    path: 'security',
-                    name: 'Security',
-                    component: AboutSecurity
-                },
-                {
-                    path: 'detail',
-                    name: 'Detail',
-                    component: AboutDetail
-                }
-            ]
-        }
-    ]
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },{
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },{
+      path: '/reg',
+      name: 'Register',
+      component: Register
+    },{
+      path: '/setpass',
+      name: 'SetPassword',
+      component: SetPassword
+    },{
+      path: '/iborrow/list',
+      name: 'IborrowList',
+      component: IborrowList
+    },{
+      path: '/iborrow/apply',
+      name: 'IborrowApply',
+      component: IborrowApply
+    },{
+      path: '/finance/list',
+      name: 'FinanceList',
+      component: FinanceList
+    },{
+      path: '/invest/detail',
+      name: 'FinanceDetail',
+      component: FinanceDetail,
+      beforeEnter: requireCheck
+    },{
+      path: '/riches/list',
+      name: 'RichesList',
+      component: RichesList
+    },{
+      path: '/personal/home',
+      name: 'PersonalHome',
+      component: PersonalHome,
+      beforeEnter: requireAuth
+    },{
+      path: '/personal/baseinfo',
+      name: 'baseInfo',
+      component: baseInfo,
+      beforeEnter: requireAuth
+    },{
+      path: '/personal/baseset',
+      name: 'baseSet',
+      component: baseSet,
+      beforeEnter: requireAuth
+    },{
+      path: '/personal/pass',
+      name: 'HeadAndPassword',
+      component: HeadAndPassword,
+      beforeEnter: requireAuth
+    },{
+      path: '/personal/auth',
+      name: 'Authority',
+      component: Authority,
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/personal/funds',
+      name: 'FundsManage',
+      component: FundsManage,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/personal/recharge',
+      name: 'Recharge',
+      component: Recharge,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/personal/withdraw',
+      name: 'Withdraw',
+      component: Withdraw,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/personal/bankaccount',
+      name: 'BankAccount',
+      component: BankAccount,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/personal/redpackage',
+      name: 'Redpackage',
+      component: Redpackage,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/personal/investment',
+      name: 'InvestMent',
+      component: InvestMent,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/personal/sanbiao',
+      name: 'Sanbiao',
+      component: Sanbiao,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/ips',
+      name: 'Ips',
+      component: Ips,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/ipsLogin',
+      name: 'IpsLogin',
+      component: IpsLogin,
+      beforeEnter: authAndCheck
+    },
+    {
+      path: '/more/service',
+      name: 'Service',
+      component: Service
+    },
+    {
+      path: '/more/guide',
+      name: 'Guide',
+      component: Guide
+    },
+    {
+      path: '/more/aboutus',
+      name: 'Aboutus',
+      component: Aboutus
+    },
+    {
+      path: '/personal/borrow',
+      name: 'Borrow',
+      component: Borrow
+    },
+    {
+      path: '/personal/borrowin',
+      name: 'BorrowTable',
+      component: BorrowTable
+    },
+    {
+      path: '/personal/quato',
+      name: 'QuatoApplication',
+      component: QuatoApplication
+    },
+    {
+      path: '/personal/upload',
+      name: 'Upload',
+      component: Upload
+    },
+    {
+      path: '/personal/records',
+      name: 'Records',
+      component: Records
+    }
+
+  ]
 })
 
+function authAndCheck (to, from, next) {
+  requireAuth(to,from,next)
+  requireCheck(to,from,next)
+}
+
 function requireAuth(to, from, next) {
-    let authUser = sessionStorage.getItem('authUser');
-    if (authUser) {
-        return next();
-    } else {
-        return next('/login');
-    }
+  let authUser = sessionStorage.getItem('authUser');
+  if (authUser) {
+    return next();
+  } else {
+    return next('/login');
+  }
 }
 
 function requireCheck(to, from, next) {
-    let authUser = sessionStorage.getItem('authUser');
-    if (authUser) {
-        let authUser = JSON.parse(Base64.decode(sessionStorage.getItem('authUser')));
+  let authUser = sessionStorage.getItem('authUser');
+  if (authUser) {
+    let authUser = JSON.parse(Base64.decode(sessionStorage.getItem('authUser')));
 
-        if(authUser.v_mobile != 1){
-            MessageBox.alert('请先完成手机号认证', '提示信息', {
-                confirmButtonText: '确定', type: 'error', callback: action => {
-                    return next('/personal/varification');
-                }
-            });
+    if(authUser.v_mobile != 1){
+      MessageBox.alert('请先完成手机号认证', '提示信息', {
+        confirmButtonText: '确定', type: 'error', callback: action => {
+          return next('/personal/auth');
         }
-
-        if(authUser.v_identity != 1){
-            MessageBox.alert('请先完成身份证实名认证', '提示信息', {
-                confirmButtonText: '确定', type: 'error', callback: action => {
-                    return next('/personal/varification');
-                }
-            });
-        }
-
-        return next();
-    }else{
-        return next();
+      });
     }
+
+    if(authUser.v_identity != 1){
+      MessageBox.alert('请先完成身份证实名认证', '提示信息', {
+        confirmButtonText: '确定', type: 'error', callback: action => {
+          return next('/personal/auth');
+        }
+      });
+    }
+
+    return next();
+  }else{
+    return next();
+  }
 }

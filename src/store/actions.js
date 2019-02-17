@@ -1,5 +1,6 @@
 import api from '../api'
 import * as types from './mutation-types';
+import { Toast,MessageBox } from 'mint-ui';
 
 /**
  * 显示提示信息
@@ -15,11 +16,11 @@ export const showText = ({ commit }, content, type='error') => {
 };
 export const showAlert = ({ commit }, content, type='success',callback) => {
     if(callback && typeof callback === 'function'){
-        window.vue.$alert(content,'提示信息',{confirmButtonText: '确定',type:type,callback: action => {
+        MessageBox.alert(content).then(action => {
             callback();
-        }});
+        });
     }else{
-        window.vue.$alert(content,'提示信息',{confirmButtonText: '确定',type:type,callback: action => {}});
+        Toast({message: content,className:'toast-box'});
     }
 };
 /**
@@ -59,13 +60,13 @@ export const getCityList = (store, cityId) => {
         });
     });
 };
-export const getFocusList = (store, data) => {
-    return new Promise(function(resolve, reject) {
-        api.getFocusList(data).then(response => {
-            resolve(response.data)
-        }, response => {
-        });
+export const getPopCityList = (store, cityId) => {
+  return new Promise(function(resolve, reject) {
+    api.getPopCityList(null).then(response => {
+      resolve(response.data)
+    }, response => {
     });
+  });
 };
 /**
  * 用户信息保存
@@ -205,6 +206,7 @@ export const modifyPassword = (store,data) => {
             });
         }, response => {
             showAlert(store, response.msg, 'error');
+            reject(response);
         });
     });
 };
@@ -221,6 +223,7 @@ export const findPassword = (store,data) => {
             });
         }, response => {
             showAlert(store, response.msg, 'error');
+            reject(response);
         });
     });
 };
@@ -385,20 +388,6 @@ export const queryUserBidRecord = (store,data) => {
     });
 };
 /**
- * 获取用户账户详情
- * @param store
- * @param data
- */
-export const queryAccount = (store,data) => {
-    return new Promise(function(resolve, reject) {
-        api.queryAccount(data).then(response => {
-            resolve(response.data);
-        }, response => {
-            reject(response);
-        });
-    });
-};
-/**
  * 获取用户借款记录
  * @param store
  * @param data
@@ -411,6 +400,20 @@ export const queryUserBid = (store,data) => {
             reject(response);
         });
     });
+};
+/**
+ * 获取用户账户详情
+ * @param store
+ * @param data
+ */
+export const queryAccount = (store,data) => {
+  return new Promise(function(resolve, reject) {
+    api.queryAccount(data).then(response => {
+      resolve(response.data);
+    }, response => {
+      reject(response);
+    });
+  });
 };
 /**
  * 投标
